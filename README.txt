@@ -4,7 +4,7 @@ The program read the user INPUT_FILE and update all the NODEs listed.
 The program will ask you to enter your file's directory.
 Then it lists all the Records in side 1 node, ask if you want to continue updating (y or n).
 If you confirm 'y', it will update all the Record with the new_ttl written in the file.
-Then it proceed to the next node in the file, and do the updating until the end of the file.
+Thyen it proceed to the next node in the file, and do the updating until the end of the file.
 
 ----- INPUT_FILE FORMAT -----
 customer_name|username|password
