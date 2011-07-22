@@ -27,12 +27,12 @@ RECORD_MODULES = [Record_get.AAAARecord_get, Record_get.ARecord_get, Record_get.
 
 RECORD_TYPES = ['AAAARecord', 'ARecord', 'CNAMERecord', 'DHCIDRecord', 'DNAMERecord', 'DNSKEYRecord', 'DSRecord', 'KEYRecord', 'LOCRecord', 'MXRecord', 'NSAPRecord', 'NSRecord', 'PTRRecord', 'PXRecord', 'RPRecord', 'SPFRecord', 'SRVRecord', 'SSHFPRecord', 'TXTRecord']
 
-def NodeRecord_get(record_list, zone, fqdn, token):
+def NodeRecord_get(old_ttl, record_list, zone, fqdn, token):
 	for i in range(0, len(RECORD_MODULES)):
 		call = getattr(RECORD_MODULES[i], RECORD_TYPES[i] + '_get')
 
 		#Search for records in each type, using 'GET' function
-		source = call('', zone, fqdn, token)
+		source = call(int(old_ttl), '', zone, fqdn, token)
 		if source != 0:
 			for j in source:
 				#Match record_ids with its address
@@ -41,9 +41,11 @@ def NodeRecord_get(record_list, zone, fqdn, token):
 					temp, temp0, _type, temp1, temp2, j = j.split('/')
 
 				#Retrieve the record_type and its ID, add them to the record_list
-				_type, _id = call(str(j), zone, fqdn, token)
-				record_list.append((_type, _id))
-
+				try:
+					_type, _id = call(int(old_ttl), str(j), zone, fqdn, token)
+					record_list.append((_type, _id))
+				except:
+					pass
 	return record_list
 	
 

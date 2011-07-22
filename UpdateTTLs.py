@@ -12,9 +12,9 @@ import NodeRecord_put
 import NodeList_get
 import session_post
 
-## Update the TTLs of all the node in a file
-## Return: Updated TTLs
-def UpdateTTLs():
+## Update the new_ttls of all the node in a file
+## Return: Updated new_ttls
+def Updatenew_ttls():
 
 	# Get login information
 	file = raw_input("\nPlease enter your input_file's directory: ")
@@ -29,7 +29,7 @@ def UpdateTTLs():
 	for line in file:
 		
 		if '|' in line:
-			fqdn, ttl, recursive = line.strip().split('|')
+			fqdn, new_ttl, recursive, old_ttl = line.strip().split('|')
 		else:
 			continue
 		
@@ -43,20 +43,22 @@ def UpdateTTLs():
 			#Get a list of nodes from fqdn
 			_list = []
 			_list = NodeList_get.NodeList_get(_list, 0, zone, fqdn, token)		
+
 			#Get a list of records in the node(s)
 			for i in _list:
-				_rec_list = NodeRecord_get.NodeRecord_get(_rec_list, zone, i, token)
+				_rec_list = NodeRecord_get.NodeRecord_get(old_ttl, _rec_list, zone, i, token)
 
 		else:
-			_rec_list = NodeRecord_get.NodeRecord_get(_rec_list, zone, fqdn, token)
+			_rec_list = NodeRecord_get.NodeRecord_get(old_ttl, _rec_list, zone, fqdn, token)
 
 		_request = raw_input("\nThese records' TTLs will be changed. Do you wish to continue? (y/n) ")
 		if _request == 'y':
-			NodeRecord_put.NodeRecord_put(_rec_list, ttl, zone, fqdn, token)
+			NodeRecord_put.NodeRecord_put(_rec_list, new_ttl, zone, fqdn, token)
 		print '----- Node:', fqdn, '. Update Completed. ------------'
 
 	os.system("rm -r */*.pyc")	#Clean up *.pyc files
 	os.system("rm *.pyc")
+
 ## Run program
-UpdateTTLs()
+Updatenew_ttls()
  
