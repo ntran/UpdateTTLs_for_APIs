@@ -56,8 +56,7 @@ def Updatenew_ttls():
 			NodeRecord_put.NodeRecord_put(_rec_list, new_ttl, zone, fqdn, token)
 		print '----- Node:', fqdn, '. Update Completed. ------------'
 
-	os.system("rm -r */*.pyc")	#Clean up *.pyc files
-	os.system("rm *.pyc")
+	os.system("find . -name '*.pyc' -delete")	#Clean up *.pyc files
 
 ## Run program
 Updatenew_ttls()
