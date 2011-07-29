@@ -1,3 +1,5 @@
+Supported Python versions: 2.5, 2.6, 2.7
+
 The program read the user INPUT_FILE and update all the NODEs listed.
 
 ----- PROGRAM EXPLANATION -----
